@@ -19,16 +19,37 @@
   }
 	&__input { 
     flex: 0 1 25%;
-    input {
-      padding: 6px 12px;
-      border-radius: 5px;
-      width: 100%;
-      font-size: 18px;
-    }
+    position: relative;
+
     
   }
 }
+.input {
+  padding: 6px 12px;
+  border-radius: 5px;
+  width: 100%;
+  font-size: 18px;
+  position: relative;
+  display: block;
 
+  &.active::before,
+    &.active::after {
+      content: '';
+      position: absolute;
+      top: 15px;
+      right: 12px;
+      background-color: black;
+      width: 15px;
+      height: 1px;
+      display: block;
+    }
+    &.active::before {
+      transform: rotate(45deg);
+    }
+    &.active::after {
+      transform: rotate(-45deg);
+    }
+}
 
 
 .gallery { 
@@ -40,13 +61,21 @@
     gap: 30px;
   }
   &__image {
-    height: 400px;
-    flex: 0 1 30%;
+    height: 500px;
+    flex: 0 1 31.8%;
+    display: block;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    
   }
 }
 
-
-
+.error {
+  width: 200px;
+  height: 200px;
+}
 
 .footer {
   background-color: black;
