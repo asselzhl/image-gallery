@@ -4,7 +4,7 @@ const searchInput = document.querySelector('.input');
 const galleryContainer = document.querySelector('.gallery__container');
 const images = document.querySelectorAll('.gallery__image');
 const inputDiv = document.querySelector('.header__input');
-
+const resetButton = document.querySelector('.reset__button');
 
 let query;
 let url; 
@@ -18,7 +18,17 @@ searchInput.addEventListener('change', () => {
   }
   getData();
 })
-
+searchInput.addEventListener('input', () => {
+  if (searchInput.value !== '') {
+    resetButton.style.display = 'block';
+  } else {
+    resetButton.style.display = 'none';
+  }
+})
+resetButton.addEventListener('click', () => {
+  searchInput.value = '';
+  resetButton.style.display = 'none';
+})
 
 
 async function getData() {

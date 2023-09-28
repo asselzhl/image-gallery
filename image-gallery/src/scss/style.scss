@@ -17,10 +17,23 @@
     border: 1px solid white;
     border-radius: 5px;
   }
+ 
 	&__input { 
-    flex: 0 1 25%;
     position: relative;
+    flex: 0 1 25%;
 
+    button {
+      position: absolute;
+      top: 3px;
+      right: 10px;
+      font-size: 20px;
+      color: black;
+      border: 0;
+      background: transparent;
+      outline: none;
+      display: none;
+    }
+     
     
   }
 }
@@ -31,24 +44,6 @@
   font-size: 18px;
   position: relative;
   display: block;
-
-  &.active::before,
-    &.active::after {
-      content: '';
-      position: absolute;
-      top: 15px;
-      right: 12px;
-      background-color: black;
-      width: 15px;
-      height: 1px;
-      display: block;
-    }
-    &.active::before {
-      transform: rotate(45deg);
-    }
-    &.active::after {
-      transform: rotate(-45deg);
-    }
 }
 
 
@@ -72,10 +67,6 @@
   }
 }
 
-.error {
-  width: 200px;
-  height: 200px;
-}
 
 .footer {
   background-color: black;
