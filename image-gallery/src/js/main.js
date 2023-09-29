@@ -1,68 +1,77 @@
 import '../scss/style.scss';
 
-const searchInput = document.querySelector('.input');
-const galleryContainer = document.querySelector('.gallery__container');
-const images = document.querySelectorAll('.gallery__image');
-const inputDiv = document.querySelector('.header__input');
-const resetButton = document.querySelector('.reset__button');
-
-let query;
-let url; 
-searchInput.addEventListener('change', () => {
-  removeImg();
-  if (searchInput.value == '') {
-    url = 'https://api.unsplash.com/photos?per_page=21&orientation=landscape&client_id=aTY8Dorni987_v2alVfGkklQTVAuCGTYKQlDITp_NIE';
-  } else {
-    query = searchInput.value;
-    url = `https://api.unsplash.com/search/photos?query=${query}&per_page=21&orientation=landscape&client_id=aTY8Dorni987_v2alVfGkklQTVAuCGTYKQlDITp_NIE`;
-  }
-  getData();
-})
-searchInput.addEventListener('input', () => {
-  if (searchInput.value !== '') {
-    resetButton.style.display = 'block';
-  } else {
-    resetButton.style.display = 'none';
-  }
-})
-resetButton.addEventListener('click', () => {
-  searchInput.value = '';
-  resetButton.style.display = 'none';
-})
+const accessKey = 'aTY8Dorni987_v2alVfGkklQTVAuCGTYKQlDITp_NIE';
+ 
+const gallery = document.querySelector('.gallery');
+const searchInput = document.querySelector('.search__input');
 
 
-async function getData() {
+const listOfPhotosUrl = `https://api.unsplash.com/photos?per_page=20&client_id=${accessKey}`;
+
+let currentImage = 0;
+let allImages;
+
+async function getImages() {
+  removeImages();
+  let url = listOfPhotosUrl;
   const res = await fetch(url);
   const data = await res.json();
-  createImg(data);
+  allImages = data;
+  createImages(allImages);
+}
+getImages();
+
+async function searchImages() {
+  removeImages();
+  let query = searchInput.value;
+  let url = `https://api.unsplash.com/search/photos?query=${query}&per_page=21&client_id=${accessKey}`;;
+  const res = await fetch(url);
+  const data = await res.json();
+  allImages = data.results;
+  createImages(allImages);
 }
 
-
-function createImg (data) {
-  if (Array.isArray(data)) {
-    data.forEach((image,index) => {
-      const img = document.createElement('div');
-      img.classList.add('gallery__image');
-      img.style.backgroundImage = `url(${image.urls.regular})`;
-      galleryContainer.append(img);
-    })
+searchInput.addEventListener('change', () => {
+  if (searchInput.value == '') {
+    getImages();
   } else {
-    data.results.forEach((image, index) => {
-      const img = document.createElement('div');
-      img.classList.add('gallery__image');
-      img.style.backgroundImage = `url(${image.urls.regular})`;
-      galleryContainer.append(img);
-    });
+    searchImages();
   }
+});
+
+function createImages (data) {
+  data.forEach((item, index) => {
+    let img = document.createElement('img');
+    img.src = item.urls.regular;
+    img.classList.add('gallery-img');
+    gallery.appendChild(img);
+
+    img.addEventListener('click', () => {
+      currentImage = index;
+      showPopup(item);
+    })
+  })
 }
 
-function removeImg () {
-  while (galleryContainer.hasChildNodes()) {
-    galleryContainer.removeChild(galleryContainer.firstChild);
-  }
+function removeImages () {
+    while (gallery.hasChildNodes()) {
+      gallery.removeChild(gallery.firstChild);
+    }
 }
 
-window.addEventListener('load', (e) => {
-  url = 'https://api.unsplash.com/photos?per_page=21&orientation=landscape&client_id=aTY8Dorni987_v2alVfGkklQTVAuCGTYKQlDITp_NIE';
-  getData();
-})
+
+
+function showPopup (item) {
+  let popup = document.querySelector('.popup-window');
+  const downloadButton = document.querySelector('.download__button');
+  const closeButton = document.querySelector('.close__button');
+  const image = document.querySelector('.opened__image');
+
+  popup.classList.remove('hide');
+  image.src = item.urls.regular;
+  downloadButton.href = item.links.download;
+
+  closeButton.addEventListener('click', () => {
+    popup.classList.add('hide');
+  })
+}
