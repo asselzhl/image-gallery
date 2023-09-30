@@ -62,16 +62,16 @@ function removeImages () {
 
 
 function showPopup (item) {
-  let popup = document.querySelector('.popup-window');
+  let modal = document.querySelector('.modal');
   const downloadButton = document.querySelector('.download__button');
   const closeButton = document.querySelector('.close__button');
   const image = document.querySelector('.opened__image');
 
-  popup.classList.remove('hide');
+  modal.classList.remove('hide');
   image.src = item.urls.regular;
   downloadButton.href = item.links.download;
 
   closeButton.addEventListener('click', () => {
-    popup.classList.add('hide');
+    modal.classList.add('hide');
   })
 }
