@@ -4,7 +4,13 @@ const accessKey = 'aTY8Dorni987_v2alVfGkklQTVAuCGTYKQlDITp_NIE';
  
 const gallery = document.querySelector('.gallery');
 const searchInput = document.querySelector('.search__input');
-
+const modal = document.querySelector('.modal');
+const downloadButton = document.querySelector('.download__button');
+const closeButton = document.querySelector('.close__button');
+const openedImage = document.querySelector('.opened__image');
+const prevButton = document.querySelector('.prev');
+const nextButton = document.querySelector('.next');
+const popup = document.querySelector('.popup-window');
 
 const listOfPhotosUrl = `https://api.unsplash.com/photos?per_page=20&client_id=${accessKey}`;
 
@@ -50,6 +56,23 @@ function createImages (data) {
       currentImage = index;
       showPopup(item);
     })
+    
+  })
+  nextButton.addEventListener('click', () => {
+    if (currentImage == data.length) {
+      return;
+    } else {
+      currentImage++;
+      openedImage.src = data[currentImage].urls.regular;
+    }
+  })
+  prevButton.addEventListener('click', () => {
+    if (currentImage == 0) {
+      return;
+    } else {
+      currentImage--;
+      openedImage.src = data[currentImage].urls.regular;
+    }
   })
 }
 
@@ -61,17 +84,26 @@ function removeImages () {
 
 
 
-function showPopup (item) {
-  let modal = document.querySelector('.modal');
-  const downloadButton = document.querySelector('.download__button');
-  const closeButton = document.querySelector('.close__button');
-  const image = document.querySelector('.opened__image');
 
+function showPopup (item) {
   modal.classList.remove('hide');
-  image.src = item.urls.regular;
+  openedImage.src = item.urls.regular;
   downloadButton.href = item.links.download;
 
   closeButton.addEventListener('click', () => {
     modal.classList.add('hide');
   })
+  modal.addEventListener('click', (e) => {
+    if(e.target == modal) {
+      modal.classList.add('hide');
+    } else {
+      return;
+    }
+  })
 }
+
+
+
+
+
+
