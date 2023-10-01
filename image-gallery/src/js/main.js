@@ -64,6 +64,7 @@ function createImages (data) {
     } else {
       currentImage++;
       openedImage.src = data[currentImage].urls.regular;
+      downloadButton.href = data[currentImage].links.download;
     }
   })
   prevButton.addEventListener('click', () => {
@@ -72,6 +73,7 @@ function createImages (data) {
     } else {
       currentImage--;
       openedImage.src = data[currentImage].urls.regular;
+      downloadButton.href = data[currentImage].links.download;
     }
   })
 }
